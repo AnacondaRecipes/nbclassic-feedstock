@@ -12,6 +12,7 @@ source:
 build:
   number: 0
   noarch: python
+  skip: True  # [s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - jupyter-nbclassic = nbclassic.notebookapp:main
