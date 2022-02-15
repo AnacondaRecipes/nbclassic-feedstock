@@ -1,46 +1,61 @@
 {% set name = "nbclassic" %}
-{% set version = "0.2.6" %}
+{% set version = "0.3.5" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b649436ff85dc731ba8115deef089e5abbe827d7a6dccbad42c15b8d427104e8
+  sha256: 99444dd63103af23c788d9b5172992f12caf8c3098dd5a35c787f0df31490c29
 
 build:
   number: 0
   noarch: python
+  skip: True  # [s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - jupyter-nbclassic = nbclassic.notebookapp:main
 
 requirements:
   host:
-    - python >=3.6
+    - jupyter-packaging >=0.9,<1
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
     - python >=3.6
-    - jupyter_server >=1.0.1,<2.0.0
+    - jupyter_server >=1.8.0,<2.0.0
     - notebook <7
 
 test:
   imports:
     - nbclassic
+  requires:
+    - pip
+  commands:
+    - pip check
+    - jupyter nbclassic --help
 
 about:
   home: http://github.com/jupyterlab/nbclassic
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
   summary: Jupyter Notebook as a Jupyter Server Extension.
 
   description: |
-    Jupyter Notebook as a Jupyter Server Extension.
+    This project prepares for a future where JupyterLab and other frontends
+    switch to Jupyter Server for their Python Web application backend. Using
+    this package, users can launch Jupyter Notebook, JupyterLab and other
+    frontends side-by-side on top of the new Python server backend.
   dev_url: https://github.com/jupyterlab/nbclassic
+  doc_url: https://github.com/jupyterlab/nbclassic/blob/main/README.md
 
 extra:
   recipe-maintainers:
     - jasongrout
     - afshin
     - jtpio
+    - bollwyvl
