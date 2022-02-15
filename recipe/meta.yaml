@@ -26,7 +26,7 @@ requirements:
     - wheel
   run:
     - python >=3.6
-    - jupyter_server >=1.8,<1.9.0a0
+    - jupyter_server >=1.8.0,<2.0.0
     - notebook <7
 
 test:
@@ -37,6 +37,8 @@ test:
   commands:
     - pip check
     - jupyter nbclassic --help
+  downstreams:
+    - jupyterlab
 
 about:
   home: http://github.com/jupyterlab/nbclassic
