@@ -1,5 +1,5 @@
 {% set name = "nbclassic" %}
-{% set version = "0.3.5" %}
+{% set version = "0.4.3" %}
 
 package:
   name: {{ name }}
@@ -7,27 +7,45 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 99444dd63103af23c788d9b5172992f12caf8c3098dd5a35c787f0df31490c29
+  sha256: f03111b2cebaa69b88370a7b23b19b2b37c9bb71767f1828cdfd7a047eae8edd
 
 build:
   number: 0
-  noarch: python
-  skip: True  # [s390x]
+  skip: True  # [s390x or py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
+    - jupyter-bundlerextension = nbclassic.bundler.bundlerextensions:main
     - jupyter-nbclassic = nbclassic.notebookapp:main
+    - jupyter-nbextension = nbclassic.nbextensions:main
+    - jupyter-serverextension = nbclassic.serverextensions:main
 
 requirements:
   host:
-    - jupyter-packaging >=0.9,<1
+    - babel
+    - jupyter-packaging >=0.9,<2
     - python
     - pip
     - setuptools
     - wheel
   run:
-    - python >=3.6
-    - jupyter_server >=1.8.0,<2.0.0
-    - notebook <7
+    - python
+    - argon2-cffi
+    - ipykernel
+    - ipython_genutils
+    - jinja2
+    - jupyter_client >=6.1.1
+    - jupyter_core >=4.6.1
+    - jupyter_server >=1.8
+    - nbconvert >=5
+    - nbformat
+    - nest-asyncio >=1.5
+    - notebook-shim >=0.1.0
+    - prometheus_client
+    - pyzmq >=17
+    - send2trash >=1.8.0
+    - terminado >=0.8.3
+    - tornado >=6.1
+    - traitlets >=4.2.1
 
 test:
   imports:
@@ -37,11 +55,20 @@ test:
   commands:
     - pip check
     - jupyter nbclassic --help
+    - jupyter nbextension --help
+    - jupyter serverextension --help
+    - jupyter bundlerextension --help
+    - jupyter server extension list
+    - jupyter server extension list 1>server_extensions 2>&1
+    - cat server_extensions | grep -iE "nbclassic.*enabled"
+    - cat server_extensions | grep -iE "nbclassic.*OK"
+    - cat server_extensions | grep -iE "notebook_shim.*enabled"
+    - cat server_extensions | grep -iE "notebook_shim.*OK"
   downstreams:
     - jupyterlab
 
 about:
-  home: http://github.com/jupyterlab/nbclassic
+  home: https://github.com/jupyterlab/nbclassic
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
