@@ -1,33 +1,51 @@
 {% set name = "nbclassic" %}
-{% set version = "0.3.5" %}
+{% set version = "0.4.8" %}
 
 package:
-  name: {{ name }}
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 99444dd63103af23c788d9b5172992f12caf8c3098dd5a35c787f0df31490c29
+  sha256: c74d8a500f8e058d46b576a41e5bc640711e1032cf7541dde5f73ea49497e283
 
 build:
   number: 0
-  noarch: python
-  skip: True  # [s390x]
+  skip: True  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - jupyter-nbclassic = nbclassic.notebookapp:main
+    - jupyter-nbclassic-extension = nbclassic.nbextensions:main
+    - jupyter-nbclassic-serverextension = nbclassic.serverextensions:main
+    - jupyter-nbclassic-bundlerextension = nbclassic.bundler.bundlerextensions:main
 
 requirements:
   host:
-    - jupyter-packaging >=0.9,<1
+    - babel
+    - jupyter-packaging
     - python
     - pip
     - setuptools
     - wheel
   run:
-    - python >=3.6
-    - jupyter_server >=1.8.0,<2.0.0
-    - notebook <7
+    - python
+    - argon2-cffi
+    - ipykernel
+    - ipython_genutils
+    - jinja2
+    - jupyter_client >=6.1.1
+    - jupyter_core >=4.6.1
+    - jupyter_server >=1.17.0
+    - nbconvert >=5
+    - nbformat
+    - nest-asyncio >=1.5
+    - notebook-shim >=0.1.0
+    - prometheus_client
+    - pyzmq >=17
+    - send2trash >=1.8.0
+    - terminado >=0.8.3
+    - tornado >=6.1
+    - traitlets >=4.2.1
 
 test:
   imports:
@@ -37,11 +55,22 @@ test:
   commands:
     - pip check
     - jupyter nbclassic --help
-  downstreams:
-    - jupyterlab
+    - jupyter nbclassic-extension --help
+    - jupyter nbclassic-serverextension --help
+    - jupyter nbclassic-bundlerextension --help
+    - jupyter server extension list
+    - jupyter server extension list 1>server_extensions 2>&1
+    - cat server_extensions | grep -iE "nbclassic.*enabled"
+    - cat server_extensions | grep -iE "nbclassic.*OK"
+    - cat server_extensions | grep -iE "notebook_shim.*enabled"
+    - cat server_extensions | grep -iE "notebook_shim.*OK"
+  #downstreams:
+  #  - jupyterlab
+  #  - jupyterlab_server
+  #  - notebook
 
 about:
-  home: http://github.com/jupyterlab/nbclassic
+  home: https://github.com/jupyter/nbclassic
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
@@ -52,8 +81,8 @@ about:
     switch to Jupyter Server for their Python Web application backend. Using
     this package, users can launch Jupyter Notebook, JupyterLab and other
     frontends side-by-side on top of the new Python server backend.
-  dev_url: https://github.com/jupyterlab/nbclassic
-  doc_url: https://github.com/jupyterlab/nbclassic/blob/main/README.md
+  dev_url: https://github.com/jupyter/nbclassic
+  doc_url: https://github.com/jupyter/nbclassic/blob/main/README.md
 
 extra:
   recipe-maintainers:
