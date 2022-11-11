@@ -64,10 +64,10 @@ test:
     - cat server_extensions | grep -iE "nbclassic.*OK"
     - cat server_extensions | grep -iE "notebook_shim.*enabled"
     - cat server_extensions | grep -iE "notebook_shim.*OK"
-  downstreams:
-    - jupyterlab
-    - jupyterlab_server
-    - notebook
+  #downstreams:
+  #  - jupyterlab
+  #  - jupyterlab_server
+  #  - notebook
 
 about:
   home: https://github.com/jupyter/nbclassic
