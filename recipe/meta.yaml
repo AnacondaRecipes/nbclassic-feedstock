@@ -23,6 +23,7 @@ requirements:
   host:
     - babel
     - jupyter-packaging
+    - jupyter_server
     - python
     - pip
     - setuptools
@@ -82,7 +83,7 @@ about:
     this package, users can launch Jupyter Notebook, JupyterLab and other
     frontends side-by-side on top of the new Python server backend.
   dev_url: https://github.com/jupyter/nbclassic
-  doc_url: https://github.com/jupyter/nbclassic/blob/main/README.md
+  doc_url: https://nbclassic.readthedocs.io/
 
 extra:
   recipe-maintainers:
