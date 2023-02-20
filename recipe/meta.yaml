@@ -84,7 +84,11 @@ about:
     this package, users can launch Jupyter Notebook, JupyterLab and other
     frontends side-by-side on top of the new Python server backend.
   dev_url: https://github.com/jupyter/nbclassic
+<<<<<<< HEAD
   doc_url: https://nbclassic.readthedocs.io/en/latest/
+=======
+  doc_url: https://nbclassic.readthedocs.io/
+>>>>>>> 6718b47 (Add jupyter_server to host (#7))
 
 extra:
   recipe-maintainers:
