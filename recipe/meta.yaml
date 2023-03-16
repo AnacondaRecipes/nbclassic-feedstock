@@ -11,6 +11,7 @@ source:
 
 build:
   number: 0
+  # trigger 1
   skip: True  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir --no-build-isolation -vvv
   entry_points:
