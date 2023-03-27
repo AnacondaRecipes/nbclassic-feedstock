@@ -11,7 +11,6 @@ source:
 
 build:
   number: 0
-  # trigger 1
   skip: True  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir --no-build-isolation -vvv
   entry_points:
@@ -85,11 +84,7 @@ about:
     this package, users can launch Jupyter Notebook, JupyterLab and other
     frontends side-by-side on top of the new Python server backend.
   dev_url: https://github.com/jupyter/nbclassic
-<<<<<<< HEAD
-  doc_url: https://nbclassic.readthedocs.io/en/latest/
-=======
   doc_url: https://nbclassic.readthedocs.io/
->>>>>>> 6718b47 (Add jupyter_server to host (#7))
 
 extra:
   recipe-maintainers:
