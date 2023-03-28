@@ -1,5 +1,5 @@
 {% set name = "nbclassic" %}
-{% set version = "0.5.2" %}
+{% set version = "0.5.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,13 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 40f11bbcc59e8956c3d5ef132dec8e5a853e893ecf831e791d54da0d8a50d79d
+  sha256: 889772a7ba524eb781d2901f396540bcad41151e1f7e043f12ebc14a6540d342
 
 build:
   number: 0
-  # trigger 1
-  skip: True  # [py<37]
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  skip: true  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir --no-build-isolation -vvv
   entry_points:
     - jupyter-nbclassic = nbclassic.notebookapp:main
     - jupyter-nbclassic-extension = nbclassic.nbextensions:main
@@ -22,9 +21,9 @@ build:
 
 requirements:
   host:
-    - babel
-    - jupyter-packaging
-    - jupyter_server
+    - babel 2.11.0
+    - jupyter-packaging 0.12.0
+    - jupyter_server 1.23.4
     - python
     - pip
     - setuptools
@@ -37,7 +36,7 @@ requirements:
     - jinja2
     - jupyter_client >=6.1.1
     - jupyter_core >=4.6.1
-    - jupyter_server >=1.17.0
+    - jupyter_server >=1.8
     - nbconvert >=5
     - nbformat
     - nest-asyncio >=1.5
@@ -50,10 +49,11 @@ requirements:
     - traitlets >=4.2.1
 
 test:
-  imports:
-    - nbclassic
   requires:
     - pip
+    - ripgrep
+  imports:
+    - nbclassic
   commands:
     - pip check
     - jupyter nbclassic --help
@@ -62,14 +62,14 @@ test:
     - jupyter nbclassic-bundlerextension --help
     - jupyter server extension list
     - jupyter server extension list 1>server_extensions 2>&1
-    - cat server_extensions | grep -iE "nbclassic.*enabled"
-    - cat server_extensions | grep -iE "nbclassic.*OK"
-    - cat server_extensions | grep -iE "notebook_shim.*enabled"
-    - cat server_extensions | grep -iE "notebook_shim.*OK"
+    - cat server_extensions | rg -ie "nbclassic.*enabled"
+    - cat server_extensions | rg -ie "nbclassic.*OK"
+    - cat server_extensions | rg -ie "notebook_shim.*enabled"
+    - cat server_extensions | rg -ie "notebook_shim.*OK"
   #downstreams:
-  #  - jupyterlab
-  #  - jupyterlab_server
-  #  - notebook
+  #- jupyterlab
+  #- jupyterlab_server
+  #- notebook
 
 about:
   home: https://github.com/jupyter/nbclassic
