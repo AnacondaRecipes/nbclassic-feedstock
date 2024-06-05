@@ -12,7 +12,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<37 or (s390x and py>=312]
+  skip: true  # [py<37 or (s390x and py>=312)]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir --no-build-isolation -vvv
   entry_points:
     - jupyter-nbclassic = nbclassic.notebookapp:main
