@@ -1,6 +1,6 @@
 {% set name = "nbclassic" %}
-{% set version = "1.0.0" %}
-{% set sha256 = "0ae11eb2319455d805596bf320336cda9554b41d99ab9a3c31bf8180bffa30e3" %}
+{% set version = "1.1.0" %}
+{% set sha256 = "77b77ba85f9e988f9bad85df345b514e9e64c7f0e822992ab1df4a78ac64fc1e" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<37]
+  skip: true  # [py<37 or (s390x and py>=312)]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir --no-build-isolation -vvv
   entry_points:
     - jupyter-nbclassic = nbclassic.notebookapp:main
@@ -22,32 +22,19 @@ build:
 
 requirements:
   host:
-    - babel 2.11.0
-    - jupyter-packaging 0.12.0
-    - jupyter_server 1.23.4
+    - babel
+    - jupyter-packaging >=0.9,<2
+    - jupyter_server >=1.17.0
     - python
     - pip
     - setuptools
     - wheel
   run:
     - python
-    - argon2-cffi
     - ipykernel
     - ipython_genutils
-    - jinja2
-    - jupyter_client >=6.1.1
-    - jupyter_core >=4.6.1
-    - jupyter_server >=1.8
-    - nbconvert >=5
-    - nbformat
     - nest-asyncio >=1.5
     - notebook-shim >=0.2.3
-    - prometheus_client
-    - pyzmq >=17
-    - send2trash >=1.8.0
-    - terminado >=0.8.3
-    - tornado >=6.1
-    - traitlets >=4.2.1
 
 test:
   requires:
