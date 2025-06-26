@@ -35,6 +35,8 @@ requirements:
     - notebook-shim >=0.2.3
 
 test:
+  source_files:
+    - tests
   requires:
     - pip
     - pytest
@@ -51,7 +53,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest --pyargs tests
+    - pytest -v tests
     - jupyter nbclassic --help
     - jupyter nbclassic-extension --help
     - jupyter nbclassic-serverextension --help
