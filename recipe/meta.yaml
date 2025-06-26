@@ -41,6 +41,7 @@ test:
     - pip
     - pytest
     - pytest-tornasync
+    - pytest-jupyter
     - ripgrep
     - requests
   imports:
