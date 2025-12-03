@@ -1,5 +1,7 @@
 {% set name = "nbclassic" %}
-{% set version = "1.3.1" %}
+{% set version = "1.3.3" %}
+{% set tests_to_skip = "" %}
+{% set tests_to_skip = '-k "not test_terminal_handler"' %}  # [win]
 
 package:
   name: {{ name|lower }}
@@ -7,7 +9,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 4c52da8fc88f9f73ef512cc305091d5ce726bdca19f44ed697cb5ba12dcaad3c
+  sha256: 434228763f8cee754318cd6dfa42370db191af630dabab8e30bafc8c1aa3eee6
 
 build:
   number: 0
@@ -27,17 +29,16 @@ requirements:
     - hatchling
     - hatch-jupyter-builder >=0.9.1
     - jupyter_server >=1.17
+    - jupyter-server >=1.17
   run:
     - python
     - ipykernel
     - ipython_genutils
     - nest-asyncio >=1.5
     - notebook-shim >=0.2.3
+    - ipython-genutils
 
-{% set tests_to_skip = "" %}
 # tornado.httpclient.HTTPClientError: HTTP 500: Internal Server Error
-{% set tests_to_skip = '-k "not test_terminal_handler"' %}  # [win]
-
 test:
   source_files:
     - tests
