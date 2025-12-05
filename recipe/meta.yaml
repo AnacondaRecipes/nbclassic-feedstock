@@ -65,10 +65,14 @@ test:
     - jupyter nbclassic-bundlerextension --help
     - jupyter server extension list
     - jupyter server extension list 1>server_extensions 2>&1
-    - cat server_extensions | rg -ie "nbclassic.*enabled"
-    - cat server_extensions | rg -ie "nbclassic.*OK"
-    - cat server_extensions | rg -ie "notebook_shim.*enabled"
-    - cat server_extensions | rg -ie "notebook_shim.*OK"
+    - cat server_extensions | rg -ie "nbclassic.*enabled"  # [unix]
+    - cat server_extensions | rg -ie "nbclassic.*OK"  # [unix]
+    - cat server_extensions | rg -ie "notebook_shim.*enabled"  # [unix]
+    - cat server_extensions | rg -ie "notebook_shim.*OK"  # [unix]
+    - type server_extensions | rg -ie "nbclassic.*enabled"  # [win]
+    - type server_extensions | rg -ie "nbclassic.*OK"  # [win]
+    - type server_extensions | rg -ie "notebook_shim.*enabled"  # [win]
+    - type server_extensions | rg -ie "notebook_shim.*OK"  # [win]  
 
 about:
   home: https://github.com/jupyter/nbclassic
